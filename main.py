@@ -27,7 +27,7 @@ def main():
         target.auto_respawn(w, h)
 
         #Draw target
-        drawer.draw_target(frame, target.x, target.y, target.radius)
+        drawer.draw_target(frame, target.x, target.y, target.radius, target.color)
 
         #Get wrist postions
         right, left = pose.get_wrist_positions(frame)
@@ -46,7 +46,7 @@ def main():
 
         #Draw score + feedback
         drawer.draw_score(frame, score)
-        drawer.show_feedback(frame, target.x, target.y)
+        drawer.show_feedback_center(frame)
 
         cv2.imshow("Boxing Trainer", frame)
 

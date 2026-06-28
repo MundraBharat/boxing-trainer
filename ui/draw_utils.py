@@ -13,10 +13,11 @@ class Drawer:
         cv2.putText(frame, f"Score: {score}", (20,50),
                     cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255,255,255), 3)
         
-    def show_feedback(self, frame, x, y):
+    def show_feedback_center(self, frame):
         if time.time() - self.feedback_time < 1:
-            cv2.putText(frame, self.feedback, (x-40, y-60),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0,255,255), 3)
+            h, w, _ = frame.shape
+            cv2.putText(frame, self.feedback, (w//2 - 100, h//2),
+                        cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,255), 5)
             
     def set_feedback(self, text):
         self.feedback = text
