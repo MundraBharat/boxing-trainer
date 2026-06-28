@@ -8,7 +8,7 @@ class Drawer:
 
     def draw_target(self, frame, x, y, radius, color):
         # glow effect
-        cv2.circle(frame, (x,y), radius + 10, (255,255,255)), 2)
+        cv2.circle(frame, (x,y), radius + 10, (255,255,255), 2)
         #inner circle
         cv2.circle(frame, (x,y), radius, color, -1)
 
