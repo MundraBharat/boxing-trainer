@@ -6,8 +6,8 @@ class Drawer:
         self.feedback = ""
         self.feedback_time = 0
 
-    def draw_target(self, frame, x, y, radius):
-        cv2.circle(frame, (x,y), radius, (0,255,0), -1)
+    def draw_target(self, frame, x, y, radius, color):
+        cv2.circle(frame, (x,y), radius, color, -1)
 
     def draw_score(self, frame, score):
         cv2.putText(frame, f"Score: {score}", (20,50),
