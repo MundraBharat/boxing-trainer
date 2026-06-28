@@ -2,14 +2,13 @@ import numpy as np
 import time
 
 class PunchDetector:
-    def __init__(self, speed_threshold=40, margin_factor=2.0):
+    def __init__(self, speed_threshold=35, min_travel=40):
         self.prev_right = None
         self.prev_left = None
         self.prev_time = time.time()
         
         self.speed_threshold = speed_threshold
-        #hit zone ke bahr se andr aane ki condition
-        self.margin_factor = margin_factor # radius * factor = outer zone
+        self.min_travel = min_travel # must move that much toward target
 
     def distance(self, p1, p2):
         return np.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
@@ -21,7 +20,6 @@ class PunchDetector:
             dt = 0.001
 
         hit = False
-        outer_radius = radius * self.margin_factor 
 
         def check_punch(prev, curr):
             if prev is None or curr is None:
@@ -39,11 +37,13 @@ class PunchDetector:
             if curr_dist > prev_dist:
                 return False
 
-            #condition
-            # 1. phle outer zone k bahr tha
-            # 2. ab inner radius k andr aa gya
-            # 3. movement target k trf h
-            if prev_dist > outer_radius and curr_dist < radius:
+            # travel distance check
+            travel = prev_dist - curr_dist
+            if travel < self.min_travel:
+                return False
+            
+            #hit check
+            if curr_dist < radius:
                 return True
             
             return False

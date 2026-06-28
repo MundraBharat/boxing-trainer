@@ -37,7 +37,7 @@ def run_game():
 
             #auto respawn target
             target.auto_respawn(w, h)
-            
+
             #Draw target
             drawer.draw_target(frame, target.x, target.y, target.radius, target.color)
 
@@ -67,8 +67,8 @@ def run_game():
 
             cv2.imshow("Boxing Trainer", frame)
 
-            key = cv2.waitKey(1) & 0xFF
-            if key == 27 or key == ord('q'): #ESC or q
+            key = cv2.waitKey(1)
+            if key == 27 or key == ord('q') or key == ord('Q'): #ESC or q
                 break
 
             #auto-restart when time over
