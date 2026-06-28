@@ -67,8 +67,8 @@ def run_game():
 
             cv2.imshow("Boxing Trainer", frame)
 
-            key = cv2.waitKey(1)
-            if key == 27 or key == ord('q') or key == ord('Q'): #ESC or q
+            key = cv2.waitKeyEx(1)
+            if key in [27, ord('q'), ord('Q')]: #ESC or q
                 break
 
             #auto-restart when time over
