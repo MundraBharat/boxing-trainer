@@ -1,0 +1,14 @@
+#python venv
+boxing-trainer/
+.env/
+
+#python cache
+__pycache__/
+*.pyc
+
+#VS code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
