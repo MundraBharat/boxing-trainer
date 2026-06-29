@@ -10,6 +10,7 @@ from core.punch_detector import PunchDetector
 from ui.draw_utils import Drawer
 
 GAME_DURATION = 60 # seconds per session
+EXIT_GAME = False
 
 def run_game():
     cam = Camera()
@@ -28,10 +29,17 @@ def run_game():
                           cv2.WINDOW_FULLSCREEN)
     
     try:
+        last_time = time.time()
         while True:
             frame = cam.get_frame()
             if frame is None:
                 continue
+
+            current_time = time.time()
+            fps = 1 / (current_time - last_time)
+            last_time = current_time
+
+            print("FPS: ", int(fps))
 
             h, w, _ = frame.shape
 
@@ -69,6 +77,8 @@ def run_game():
 
             key = cv2.waitKeyEx(1)
             if key in [27, ord('q'), ord('Q')]: #ESC or q
+                global EXIT_GAME
+                EXIT_GAME = True
                 break
 
             #auto-restart when time over
@@ -77,7 +87,14 @@ def run_game():
                     frame = cam.get_frame()
                     show_game_over(frame, score, t)
                     cv2.imshow("Boxing Trainer", frame)
+                    
                     cv2.waitKey(1000)
+                    if key in [27, ord('q'), ord('Q')]: #ESC or q
+                        EXIT_GAME = True
+                        break
+
+                if EXIT_GAME:
+                    break
 
                 #reset game
                 score = 0
@@ -105,7 +122,8 @@ def show_game_over(frame, score, restart_seconds):
                 cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0,255,255), 4)
 
 def main():
-    while True:
+    global EXIT_GAME
+    while not EXIT_GAME:
         run_game()
         #if you want full exit after one session, break here
         #break
