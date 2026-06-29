@@ -73,12 +73,18 @@ def run_game():
 
             #auto-restart when time over
             if seconds_left <= 0:
-                #pause to show score
-                time.sleep(7)
+                for t in range(10,0,-1):
+                    frame = cam.get_frame()
+                    show_game_over(frame, score, t)
+                    cv2.imshow("Boxing Trainer", frame)
+                    cv2.waitKey(1000)
+
+                #reset game
                 score = 0
                 start_time = time.time()
-                # clear feedback
-                drawer.set_feedback("")
+                punch.right_buffer.clear()
+                punch.left_buffer.clear()
+                continue
     
     except Exception as e:
         print("Error in game loop:")
@@ -87,6 +93,16 @@ def run_game():
 
     finally:
         cam.release()
+
+def show_game_over(frame, score, restart_seconds):
+    h, w, _ = frame.shape
+
+    cv2.putText(frame, "Time UP!", (w//2 - 200, h//2 - 80),
+                cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0,0,255), 6)
+    cv2.putText(frame, f"Score: {score}", (w//2 - 150, h//2 + 20),
+                cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255,255,0), 5)
+    cv2.putText(frame, f"Restarting in : {restart_seconds}s", (w//2 - 250, h//2 + 120),
+                cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0,255,255), 4)
 
 def main():
     while True:
